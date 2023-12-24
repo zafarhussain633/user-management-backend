@@ -3,9 +3,17 @@ import ErrorResponse from "../util/errorResponse.js";
 import path from "path";
 const maxFileUploadSize = process.env.MAX_UPLOAD_SIZE || 1;
 
+// Ensure that the destination directory exists
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const fileDestination = process.env.FILE_UPLOAD_PATH || "./public/uploads/";
+    const fileDestination = process.env.FILE_UPLOAD_PATH
+    
+    if (!fs.existsSync(fileDestination)) {
+      fs.mkdirSync(fileDestination, { recursive: true });
+    }
+
     cb(null, fileDestination); // the file will be automatically uploaded in uopload folder
   },
   filename: function (req, file, cb) {
