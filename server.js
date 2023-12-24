@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 // Get the directory path of the current module's file
 const __dirname = dirname(__filename);
 
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'tmp')));
 
 
 if(process.env.NODE_ENV === "development"){ 

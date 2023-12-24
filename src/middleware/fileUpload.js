@@ -72,7 +72,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads"); // Save files to the 'uploads' folder
+    cb(null, "tmp/uploads"); // Save files to the 'uploads' folder
   },
   filename: function (req, file, cb) {
     cb(null, Date.now()+file.originalname);
