@@ -43,7 +43,7 @@ function fileFilter(req, file, cb) {
     return cb(new ErrorResponse("Please upload only PDF files for documents", 400));
   }
 
-  if (file.fieldname === "image" && !file.mimetype.startsWith("profile_image")) {
+  if (file.fieldname === "profile_image" && !file.mimetype.startsWith("image")) {
     return cb(
       new ErrorResponse(
         "Please upload only image files (jpg or png) for 'image'",
