@@ -17,14 +17,23 @@ const userSchema = new mongoose.Schema(
       ],
       unique: true,
     },
-    dob: String,
-    documents: Array,
-    profile_image: String,
+    dob: {
+      type: Date,
+      validate: {
+        validator: function (value) {
+          // Check if the provided date is in the past
+          return value < new Date();
+        },
+        message: "Please enter a valid date of birth (in the past)",
+      },
+    },
+    documents: Array, //array of url for documents
+    profile_image: String, //url of profile image 
   },
   { timestamps: true }
 );
 
-// for checking emal exit or not
+// for checking email exits or not
 userSchema.post("save", function (error, doc, next) {
   if (error.code === 11000) {
     next(new ErrorResponse("Email already exists", 400));

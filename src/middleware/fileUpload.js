@@ -1,15 +1,14 @@
 import multer from "multer";
 import ErrorResponse from "../util/errorResponse.js";
 import path from "path";
-const maxFileUploadSize = process.env.MAX_UPLOAD_SIZE || 1;
-
-// Ensure that the destination directory exists
-
+import fs from "fs"
+const maxFileUploadSize = process.env.MAX_UPLOAD_SIZE
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const fileDestination = process.env.FILE_UPLOAD_PATH
-    
+
+    // Ensure that the destination directory exists
     if (!fs.existsSync(fileDestination)) {
       fs.mkdirSync(fileDestination, { recursive: true });
     }

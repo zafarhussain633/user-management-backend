@@ -7,18 +7,21 @@ const getAllUsers = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
-
 //for add user
 const createUser = asyncHandler(async (req, res, next) => {
-  
-  const payload = {
-    ...req.body,
-    profile_image: `${process.env.SERVER_DOMAIN}/uploads/${req.files.profile_image[0].filename}`,
-    documents: req.files.documents.map(
+  if (req.files?.profile_image?.length > 0) {
+    // profile_image is optional thats why added conditionaly
+    req.body.profile_image = `${process.env.SERVER_DOMAIN}/uploads/${req.files.profile_image[0].filename}`;
+  }
+
+  if (req.files?.documents?.length > 0) {
+    // documents is optional thats why added conditionaly
+    req.body.documents = req.files?.documents?.map(
       (res) => `${process.env.SERVER_DOMAIN}/uploads/${res.filename}`
-    ),
-  };
-  await User.create(payload);
+    );
+  }
+
+  await User.create(req.body);
   res.status(200).json({ success: true, message: "user created successfully" });
 });
 
