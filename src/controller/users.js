@@ -9,16 +9,21 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
 //for add user
 const createUser = asyncHandler(async (req, res, next) => {
+
+
   if (req.files?.profile_image?.length > 0) {
     // profile_image is optional thats why added conditionaly
-    req.body.profile_image = `${process.env.SERVER_DOMAIN}/uploads/${req.files.profile_image[0].filename}`;
+    req.body.profile_image = `${process.env.SERVER_DOMAIN}/uploads/${req.files.profile_image[0]?.filename}`;
   }
+  
+  console.log(req.files?.documents,"dil")
 
   if (req.files?.documents?.length > 0) {
     // documents is optional thats why added conditionaly
-    req.body.documents = req.files?.documents?.map(
-      (res) => `${process.env.SERVER_DOMAIN}/uploads/${res.filename}`
-    );
+    req.body.documents = req.files?.documents?.map((res) => ({
+      name: res?.originalname,
+      url: `${process.env.SERVER_DOMAIN}/uploads/${res?.filename}`,
+    }));
   }
 
   await User.create(req.body);

@@ -5,8 +5,7 @@ import morgan from "morgan"
 import rootRouter from "./src/routes/index.js"
 import cors from "cors"
 import errorHadler from "./src/middleware/error.js"
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+
 
 //Connect to data base 
 connectDB();
@@ -17,12 +16,7 @@ const app = express();
 app.use(express.json())
 
 
-const __filename = fileURLToPath(import.meta.url);
-// Get the directory path of the current module's file
-const __dirname = dirname(__filename);
-
-app.use(express.static(join(__dirname, 'tmp')));
-
+app.use(express.static('public')); // set static path
 
 if(process.env.NODE_ENV === "development"){ 
     app.use(morgan("dev")) //from morgan third party loggger
